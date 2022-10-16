@@ -9,7 +9,7 @@ class Content(Mapping):
 
     @classmethod
     def load(self,cls,string):
-        _,fm,content = self.__regex.split(string,2)
+        _,fm,content = cls.__regex.split(string,2)
         metadata = load(fm,Loader=FullLoader)
         return cls(metadata,content)
     
@@ -41,7 +41,7 @@ class Content(Mapping):
     def __repr__(self):
         data = {}
         for key,value in self.data.items():
-            if(key!="content"):
+            if key != "content":
                 data[key]=value
         
         return str(data)
