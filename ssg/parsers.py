@@ -2,12 +2,12 @@ from typing import List
 from pathlib import Path
 import shutil
 class Parser:
-    extensions=List[str]
+    extensions:List[str] = []
 
     def valid_extensions(self,extension):
         return extension in self.extensions
     
-    def parse(self,path:Path(),source:Path(),dest:Path()):
+    def parse(self,path:Path,source:Path,dest:Path):
         raise NotImplementedError
 
     def read(self,path):
@@ -16,13 +16,13 @@ class Parser:
     
     def write(self,path,dest,content,ext=".html"):
         full_path = self.dest / path.with_suffix(ext).name
-        with open(full_path,'r') as file:
+        with open(full_path,'w') as file:
             file.write(content)
+
     def copy(self,path,source,dest):
-        shutil.copy2(path,dest/source.relative_to(path))
+        shutil.copy2(path,dest/path.relative_to(source))
 
 class ResourceParser(Parser):
     extensions:List[str] = [".jpg",".png",".gif",".css",".html"]
     def parse(self,path:Path,source:Path,dest:Path):
-        Parser.copy(path,source,dest)
-    
+        self.copy(path,source,dest)
