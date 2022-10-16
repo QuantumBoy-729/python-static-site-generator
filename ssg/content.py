@@ -4,9 +4,10 @@ from yaml import FullLoader,load
 from collections.abc import Mapping
 
 class Content(Mapping):
-    __delimiter = "^(?:-|\+){3}\s*$"
+    __delimiter = r"^(?:-|\+){3}\s*$"
     __regex = re.compile(__delimiter,re.MULTILINE)
 
+    @classmethod
     def load(self,cls,string):
         _,fm,content = self.__regex.split(string,2)
         metadata = load(fm,Loader=FullLoader)
@@ -22,7 +23,7 @@ class Content(Mapping):
 
     @property
     def type(self):
-        return self.data["type"] if self.data.has_key("type") else None
+        return self.data["type"] if "type" in self.data else None
 
     @type.setter
     def type(self,type):
