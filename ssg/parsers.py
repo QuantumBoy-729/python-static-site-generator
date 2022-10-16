@@ -4,7 +4,7 @@ import shutil
 class Parser:
     extensions:List[str] = []
 
-    def valid_extensions(self,extension):
+    def valid_extension(self,extension):
         return extension in self.extensions
     
     def parse(self,path:Path,source:Path,dest:Path):
@@ -15,7 +15,7 @@ class Parser:
             return file.read()
     
     def write(self,path,dest,content,ext=".html"):
-        full_path = self.dest / path.with_suffix(ext).name
+        full_path = dest / path.with_suffix(ext).name
         with open(full_path,'w') as file:
             file.write(content)
 
